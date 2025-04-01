@@ -130,6 +130,68 @@ export LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0 /usr/lib/x86_64-li
 
 This ensures OpenCV uses the system's GTK-related libraries instead of Conda's stripped-down versions.
 
+
+---
+
+### If you don't want to set LD_PRELOAD because it destroys conda environment:
+
+You can create a config in VSCode and only preload the opencv library when you need to run a opencv denpendent python file
+
+- if you don't see any launch.json file:
+
+Create or edit the .vscode/launch.json file.
+
+You can auto-generate one by:
+
+Opening a Python script
+
+Clicking the "Run and Debug" button
+
+Choosing "Python File" → It will create .vscode/launch.json for you
+
+Then add multiple configurations like this:
+launch.json:
+```
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Clear Preload",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "env": {
+        "LD_PRELOAD": ""
+      }
+    },
+    {
+      "name": "Python: With OpenCV Preload",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "env": {
+        "LD_PRELOAD": "/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0 /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0"
+      }
+    }
+  ]
+}
+```
+
+✅ Step-by-Step: Select a Run Config in VS Code
+
+Open the Run and Debug Panel
+
+1. Click the Run & Debug icon on the left sidebar (looks like a play button with a bug).
+
+    Or press Ctrl + Shift + D (Windows/Linux) or Cmd + Shift + D (macOS).
+
+2. Choose Your Config
+At the top of the panel, you'll see a dropdown — this is your launch configuration selector.
+
+3. Select the config you want to use.
+
 ---
 
 ## ✅ Test the Installation
